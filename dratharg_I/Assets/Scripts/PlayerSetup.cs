@@ -34,7 +34,7 @@ public class PlayerSetup : NetworkBehaviour {
 		}
 		//Game manager handle this function.
 		//RegisterPlayer();
-
+		GetComponent<Player>().Setup();
 	}
 	
 	public override void OnStartClient()
