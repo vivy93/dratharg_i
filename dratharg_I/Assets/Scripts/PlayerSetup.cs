@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Player))]
 public class PlayerSetup : NetworkBehaviour {
 
 	[SerializeField]
@@ -9,6 +10,7 @@ public class PlayerSetup : NetworkBehaviour {
 	[SerializeField]
 	string remoteLayerName = "RemotePlayer";
 
+	public Camera playerCamera;
 	Camera sceneCamera;
 
 	void Start ()
@@ -26,19 +28,30 @@ public class PlayerSetup : NetworkBehaviour {
 			sceneCamera = Camera.main;
 			if (sceneCamera != null)
 			{
+				Cardboard.SDK.gameObject.SetActive (true);
 				sceneCamera.gameObject.SetActive(false);
             }
 		}
-
-		RegisterPlayer();
+		//Game manager handle this function.
+		//RegisterPlayer();
 
 	}
-
-	void RegisterPlayer ()
+	
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		string _netID = GetComponent<NetworkIdentity>().netId.ToString();
+		Player player = GetComponent<Player>();
+		
+		GameManager.RegisterPlayer(_netID, player);
+	}
+	
+	//Game manager handle this function.
+	/*void RegisterPlayer ()
 	{
 		string _ID = "Player " + GetComponent<NetworkIdentity>().netId;
 		transform.name = _ID;
-	}
+	}*/
 
 	void AssignRemoteLayer ()
 	{
@@ -56,7 +69,11 @@ public class PlayerSetup : NetworkBehaviour {
 	void OnDisable()
 	{
 		if (sceneCamera != null) {
+			
 			sceneCamera.gameObject.SetActive (true);
+			Cardboard.SDK.gameObject.SetActive (false);
+			//playerCamera.gameObject.SetActive(false);
 		}
+		GameManager.UnRegisterPlayer(transform.name);
 	}
 }
