@@ -93,7 +93,7 @@ public class PlayerShoot : NetworkBehaviour {
 				CmdPlayerShot(_hit.collider.name, currentWeapon.damage);
 				Debug.Log(_hit.collider.name + " has been shot.");
 			}
-			//CmdOnHit(_hit.point, _hit.normal);
+			CmdOnHit(_hit.point, _hit.normal);
 		}
 
 	}

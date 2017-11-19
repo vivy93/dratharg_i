@@ -21,6 +21,12 @@ public class Player : NetworkBehaviour {
 	[SerializeField]
 	private Behaviour[] disableOnDeath;
 	private bool[] wasEnabled;
+	
+	[SerializeField]
+    private GameObject deathEffect;
+	
+	[SerializeField]
+	private GameObject[] disableGameObjectsOnDeath;
 
     public void Setup ()
     {
@@ -32,17 +38,18 @@ public class Player : NetworkBehaviour {
 
         SetDefaults();
     }
+	
+	//for testing health and explosion
+	void Update ()
+	{
+		if (!isLocalPlayer)
+			return;
 
-	//void Update ()
-	//{
-	//	if (!isLocalPlayer)
-	//		return;
-
-	//	if (Input.GetKeyDown(KeyCode.K))
-	//	{
-	//		RpcTakeDamage(99999);
-	//	}
-	//}
+		if (Input.GetKeyDown(KeyCode.K))
+		{
+			RpcTakeDamage(99999);
+		}
+	}
 
 	[ClientRpc]
     public void RpcTakeDamage (int _amount)
@@ -63,16 +70,31 @@ public class Player : NetworkBehaviour {
 	private void Die()
 	{
 		isDead = true;
-
+		//Disable the components
 		for (int i = 0; i < disableOnDeath.Length; i++)
 		{
 			disableOnDeath[i].enabled = false;
+		}
+		//Disable the gameobjects
+		for (int i = 0; i < disableGameObjectsOnDeath.Length; i++)
+		{
+			disableGameObjectsOnDeath[i].SetActive(false);
 		}
 
 		Collider _col = GetComponent<Collider>();
 		if (_col != null)
 			_col.enabled = false;
 
+		GameObject _gfxIns = Instantiate(deathEffect, transform.position, Quaternion.identity);
+		Destroy(_gfxIns, 3f);
+		
+		if (isLocalPlayer)
+		{
+			GameManager.instance.SetSceneCameraActive(true);
+			Cardboard.SDK.gameObject.SetActive (false);
+			
+		}
+		
 		Debug.Log(transform.name + " is DEAD!");
 
 		StartCoroutine(Respawn());
@@ -100,10 +122,22 @@ public class Player : NetworkBehaviour {
 		{
 			disableOnDeath[i].enabled = wasEnabled[i];
 		}
+		
+		for (int i = 0; i < disableGameObjectsOnDeath.Length; i++)
+		{
+			disableGameObjectsOnDeath[i].SetActive(true);
+		}
 
 		Collider _col = GetComponent<Collider>();
 		if (_col != null)
 			_col.enabled = true;
+		
+		if (isLocalPlayer)
+		{
+			GameManager.instance.SetSceneCameraActive(false);
+			Cardboard.SDK.gameObject.SetActive (true);
+			
+		}
     }
 
 }
