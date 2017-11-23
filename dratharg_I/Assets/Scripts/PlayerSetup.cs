@@ -22,6 +22,11 @@ public class PlayerSetup : NetworkBehaviour {
 			DisableComponents();
 			AssignRemoteLayer();
 		}
+		else
+		{
+			GetComponent<Player>().SetupPlayer();
+		}
+		
 		// else
 		// {
 			// // We are the local player: Disable the scene camera
@@ -34,7 +39,7 @@ public class PlayerSetup : NetworkBehaviour {
 		// }
 		//Game manager handle this function.
 		//RegisterPlayer();
-		GetComponent<Player>().Setup();
+		
 	}
 	
 	public override void OnStartClient()
@@ -68,8 +73,11 @@ public class PlayerSetup : NetworkBehaviour {
 		
 	void OnDisable()
 	{
-		GameManager.instance.SetSceneCameraActive(true);
-		Cardboard.SDK.gameObject.SetActive (false);
+		if(isLocalPlayer)
+		{
+			GameManager.instance.SetSceneCameraActive(true);
+			Cardboard.SDK.gameObject.SetActive (false);
+		}
 		// if (sceneCamera != null) {
 			
 			// sceneCamera.gameObject.SetActive (true);

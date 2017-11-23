@@ -27,17 +27,42 @@ public class Player : NetworkBehaviour {
 	
 	[SerializeField]
 	private GameObject[] disableGameObjectsOnDeath;
+	
+	private bool firstSetup = true;
 
-    public void Setup ()
+    public void SetupPlayer()
     {
-		wasEnabled = new bool[disableOnDeath.Length];
-		for (int i = 0; i < wasEnabled.Length; i++)
+		if(isLocalPlayer)
 		{
-			wasEnabled[i] = disableOnDeath[i].enabled;
+			//Switch Cameras
+			GameManager.instance.SetSceneCameraActive(false);
+			Cardboard.SDK.gameObject.SetActive (true);
 		}
+		CmdBroadCastNewPlayerSetup();
+    }
+	
+	[Command]
+	private void CmdBroadCastNewPlayerSetup()
+	{
+		RpcSetupPlayerOnAllClients();
+	}
+	
+	[ClientRpc]
+	private void RpcSetupPlayerOnAllClients()
+	{
+		if (firstSetup)
+		{
+			wasEnabled = new bool[disableOnDeath.Length];
+			for (int i = 0; i < wasEnabled.Length; i++)
+			{
+				wasEnabled[i] = disableOnDeath[i].enabled;
+			}
+			firstSetup =false;
+		}
+		
 
         SetDefaults();
-    }
+	}
 	
 	//for testing health and explosion
 	void Update ()
@@ -104,10 +129,16 @@ public class Player : NetworkBehaviour {
 	{
 		yield return new WaitForSeconds(GameManager.instance.matchSettings.respawnTime);
 
-		SetDefaults();
+		
 		Transform _spawnPoint = NetworkManager.singleton.GetStartPosition();
 		transform.position = _spawnPoint.position;
 		transform.rotation = _spawnPoint.rotation;
+		
+		//Make sure to setup rotation and position
+		yield return new WaitForSeconds(0.1f);
+		
+		SetupPlayer();
+		//SetDefaults();
 
 		Debug.Log(transform.name + " respawned.");
 	}
@@ -132,12 +163,7 @@ public class Player : NetworkBehaviour {
 		if (_col != null)
 			_col.enabled = true;
 		
-		if (isLocalPlayer)
-		{
-			GameManager.instance.SetSceneCameraActive(false);
-			Cardboard.SDK.gameObject.SetActive (true);
-			
-		}
+		
     }
 
 }
