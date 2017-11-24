@@ -73,7 +73,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 342}
   m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 95
+  controlID: 104
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -119,8 +119,8 @@ MonoBehaviour:
     y: 0
     width: 241
     height: 620
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 342}
   m_MaxSize: {x: 8006, y: 8042}
   vertical: 1
-  controlID: 96
+  controlID: 105
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 97
+  controlID: 106
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -432,19 +432,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
   m_ViewMode: 1
   m_StartGridSize: 51
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: 51
   m_LastProjectPath: D:\Vivi\OE_NIK\8_Felev\Szakdoli_I\sajat\itthon\dratharg_I
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 27}
-    m_SelectedIDs: cc270000
-    m_LastClickedID: 10188
-    m_ExpandedIDs: 000000008e250000ba250000da250000282700007a270000aa2700000828000000ca9a3bffffff7f
+    m_SelectedIDs: 32270000
+    m_LastClickedID: 10034
+    m_ExpandedIDs: 0000000092250000be250000de2500003227000084270000b42700001228000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -472,7 +472,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008e250000ba250000da250000282700007a270000aa27000008280000
+    m_ExpandedIDs: 0000000092250000be250000de2500003227000084270000b427000012280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -497,10 +497,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7cd5ffff
-    m_LastClickedInstanceID: -10884
+    m_SelectedInstanceIDs: 40270000
+    m_LastClickedInstanceID: 10048
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: dc090000b8afffffbc280000562600002cb3ffff660700003a080000fc060000ea78fdff4e08000000260000f04200001a3800000c4900003e270000a4430000384400004a260000486a0000006f0000066d000026270000a4330000562c0000142e00002a8bffff000000001c31000074aefaffa4260000
+    m_ExpandedInstanceIDs: dc090000b8afffffbc280000562600002cb3ffff660700003a080000fc060000ea78fdff4e08000000260000f04200001a3800000c4900003e270000a4430000384400004a260000486a0000006f0000066d000026270000a4330000562c0000142e00002a8bffff000000001c31000074aefaff
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -588,9 +588,9 @@ MonoBehaviour:
     height: 599
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 40270000
     m_LastClickedID: 0
-    m_ExpandedIDs: 7cd5ffffdcfbffffe4fbffff00000000da280000022900003a290000782900009a290000
+    m_ExpandedIDs: dcdfffff9ef0ffffa2f0ffffc4f0ffff8ef8fffff8fafffffcfaffff1efbffffe4fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -640,14 +640,14 @@ MonoBehaviour:
     width: 715
     height: 599
   m_SceneLighting: 1
-  lastFramingTime: 358.9678817018765
-  m_2DMode: 1
+  lastFramingTime: 99.66279915035143
+  m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 0, z: 100}
+    m_Target: {x: -6.174537, y: 1.1493702, z: -0.45475554}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 100}
+    m_Value: {x: -6.174537, y: 1.1493702, z: -0.45475554}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -662,26 +662,26 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 0
-      speed: 2
-      m_Value: 0
-    zGrid:
       m_Target: 1
       speed: 2
       m_Value: 1
+    zGrid:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
   m_Rotation:
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
+    m_Target: {x: -0.00039865353, y: -0.99797684, z: 0.06326616, w: -0.0062882807}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0, w: 1}
+    m_Value: {x: -0.00039865353, y: -0.99797684, z: 0.06326616, w: -0.0062882807}
   m_Size:
-    m_Target: 90.667694
+    m_Target: 1.6723098
     speed: 2
-    m_Value: 90.667694
+    m_Value: 1.6723098
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
-    m_Value: 1
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+    m_Value: 0
+  m_LastSceneViewRotation: {x: -0.0036717176, y: -0.98949057, z: 0.14227739, w: -0.02553546}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 

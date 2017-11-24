@@ -13,8 +13,11 @@ public class PlayerSetup : NetworkBehaviour {
 	public Camera playerCamera;
 	// Camera sceneCamera;
 
+	private GameObject canvas;
+
 	void Start ()
 	{
+		//canvas = GameObject.FindGameObjectWithTag("Canvas");
 		// Disable components that should only be
 		// active on the player that we control
 		if (!isLocalPlayer)
@@ -24,6 +27,7 @@ public class PlayerSetup : NetworkBehaviour {
 		}
 		else
 		{
+			//canvas.SetActive (false);
 			GetComponent<Player>().SetupPlayer();
 		}
 		

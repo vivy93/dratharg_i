@@ -7,24 +7,25 @@ using UnityEngine.Networking.Match;
 
 public class JoinGame : MonoBehaviour {
 	
-	List<GameObject> roomList = new List<GameObject>();
 	private NetworkManager networkManager;
 	
 	[SerializeField]
 	private Text status;
-
-	[SerializeField]
-	private Button roomButton;
 	
 	[SerializeField]
 	private GameObject roomListItemPrefab;
 	
 	[SerializeField]
 	private Transform roomListParent;
+
+	public GameObject[] rooms;
 	
 	// Use this for initialization
 	void Start () {
-		roomButton.enabled = false;
+		rooms = GameObject.FindGameObjectsWithTag ("Room");
+		for (int i = 0; i < rooms.Length; i++) {
+			rooms [i].SetActive (false);
+		}
 		networkManager = NetworkManager.singleton;
 		if (networkManager.matchMaker == null)
 		{
@@ -36,8 +37,13 @@ public class JoinGame : MonoBehaviour {
 	public void RefreshRoomList()
 	{
 		ClearRoomList ();
+		//networkManager = NetworkManager.singleton;
+		if (networkManager.matchMaker == null)
+		{
+			networkManager.StartMatchMaker();
+		}
 		networkManager.matchMaker.ListMatches(0, 20, "",true, 0, 0, OnMatchList);
-		status.text = "Loading...";		
+		status.text = "Loading...";
 	}
 	
 	public void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
@@ -48,49 +54,71 @@ public class JoinGame : MonoBehaviour {
 			status.text = "Couldn't get room list.";
 			return;
 		}
-		//ClearRoomList();
+
+		int i=0;
 		foreach(MatchInfoSnapshot match in matchList)
 		{
-			//GameObject _roomListItemGO = Instantiate(roomListItemPrefab);
-			//_roomListItemGO.transform.SetParent(roomListParent);
-			//_roomListItemGO.SetActive (true);
-
-
-			
-			RoomListItem _roomListItem = roomButton.GetComponent<RoomListItem>();
+			RoomListItem _roomListItem = rooms[i].GetComponent<RoomListItem>();
 			_roomListItem.enabled = true;
-			roomButton.enabled = true;
+			rooms[i].gameObject.SetActive (true);
 
 			if (_roomListItem != null)
 			{
 				_roomListItem.Setup(match, JoinRoom);
 			}
-
-			//roomList.Add(_roomListItemGO);
+			i++;
 		}
-		//if (roomList.Count == 0) {
-		//	status.text = "No rooms at the moment...";
-		//}
+		int j = 0;
+		for (int k = 0; k < rooms.Length; k++) {
+			if (rooms[k].gameObject.activeSelf) {
+				j++;
+			}
+		}
+		if (j==0) {
+			status.text = "No rooms at the moment...";
+		}
 	}
 	
 	void ClearRoomList()
 	{
-		for(int i =0; i<roomList.Count; i++)
-		{
-			Destroy(roomList[i]);
+		for (int i = 0; i < rooms.Length; i++) {
+			rooms [i].SetActive (false);
 		}
-		
-		roomList.Clear();
-		Debug.Log ("ClearRoomList");
 	}
-
-
+		
 	public void JoinRoom(MatchInfoSnapshot _match)
 	{
 		networkManager.matchMaker.JoinMatch(_match.networkId, "", "","",0,0, networkManager.OnMatchJoined);
-		ClearRoomList ();
-		status.text = "JOINING...";
+		StartCoroutine(WaitForJoin());
 	}
 	
+	IEnumerator WaitForJoin ()
+	{
+		ClearRoomList();
+
+		int countdown = 10;
+		while (countdown > 0)
+		{
+			status.text = "JOINING... (" + countdown + ")";
+
+			yield return new WaitForSeconds(1);
+
+			countdown--;
+		}
+
+		// Failed to connect
+		status.text = "Failed to connect.";
+		yield return new WaitForSeconds(1);
+
+		MatchInfo matchInfo = networkManager.matchInfo;
+		if (matchInfo != null)
+		{
+			networkManager.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, networkManager.OnDropConnection);
+			networkManager.StopHost();
+		}
+
+		RefreshRoomList();
+
+	}
 	
 }

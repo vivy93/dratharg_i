@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class HostGame : MonoBehaviour {
 
@@ -25,6 +26,10 @@ public class HostGame : MonoBehaviour {
 	
 	public void CreateRoom()
 	{
+		/*if (_networkManager.matchMaker ==null)
+		{
+			_networkManager.StartMatchMaker();
+		}*/
 		if(roomName != "" && roomName != null)
 		{
 			Debug.Log("Creating Room: " + roomName + " with room for " + roomSize + " players.");

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character_Controller : MonoBehaviour {
 
+public class Character_Controller : MonoBehaviour {
+	public static bool panelIsActive;
 	public float speed = 3f;
 	//public float damage = 10f;
 	//public float range = 100f;
@@ -19,20 +20,22 @@ public class Character_Controller : MonoBehaviour {
 
 	public Camera m_Camera;
 	CharacterController cc;
-	private bool jump = false;
-
-	//public GameObject bulletPrefab;
+	GameObject panel;
 
 	// Use this for initialization
 	void Start () {
 		cc = gameObject.GetComponent<CharacterController> ();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Application.Quit(); 
+		panel = GameObject.FindGameObjectWithTag("Panel");
+		if (panel!=null) {
+			if (panel.activeSelf)
+				return;
 		}
+			
 		if (cc.isGrounded)
 		{
 			verticalVelocity = 0;

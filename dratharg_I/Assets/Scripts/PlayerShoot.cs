@@ -15,6 +15,8 @@ public class PlayerShoot : NetworkBehaviour {
 	[SerializeField]
 	private LayerMask mask;
 
+	GameObject panel;
+
 	void Start ()
 	{
 		if (cam == null)
@@ -23,11 +25,19 @@ public class PlayerShoot : NetworkBehaviour {
 			this.enabled = false;
 		}
 		weaponManager = GetComponent<WeaponManager>();
+		//panel = GameObject.FindGameObjectWithTag("Panel");
 	}
 
 	void Update ()
 	{
 		currentWeapon = weaponManager.GetCurrentWeapon();
+
+		panel = GameObject.FindGameObjectWithTag("Panel");
+		if (panel!=null) {
+			if (panel.activeSelf)
+				return;
+		}
+		
 		if (currentWeapon.fireRate <= 0f)
   		{
 			if (Input.GetButtonDown("Fire1"))
@@ -84,7 +94,7 @@ public class PlayerShoot : NetworkBehaviour {
 		
 		CmdOnShoot();
 		
-		Debug.Log("SHOOT!");
+
 		RaycastHit _hit;
 		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out _hit, currentWeapon.range, mask) )
 		{
