@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public class PlayerShoot : NetworkBehaviour {
 
 	private const string PLAYER_TAG = "Player";
+	private int counter=1;
 
 	private PlayerWeapon currentWeapon;
 	private WeaponManager weaponManager;
@@ -38,6 +39,22 @@ public class PlayerShoot : NetworkBehaviour {
 				return;
 		}
 		
+		if(Input.GetButtonDown("ChangeWeapon") )
+		{
+			if(counter%2==0)
+			{
+				currentWeapon.fireRate = 10f;
+				currentWeapon.damage = 3;		
+			}
+			else
+			{
+				currentWeapon.fireRate = 0f;
+				currentWeapon.damage = 10;
+				
+			}
+			counter++;
+		}
+		
 		if (currentWeapon.fireRate <= 0f)
   		{
 			if (Input.GetButtonDown("Fire1"))
@@ -56,7 +73,6 @@ public class PlayerShoot : NetworkBehaviour {
 				CancelInvoke("Shoot");
 			}	
 		}
-		
 	}
 	
 	[Command]

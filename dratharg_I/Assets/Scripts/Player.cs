@@ -13,10 +13,10 @@ public class Player : NetworkBehaviour {
 	}
 
     [SerializeField]
-	private float maxHealth = 100;
+	private int maxHealth = 100;
 
     [SyncVar]
-	private float currentHealth;
+	private int currentHealth;
 
 	[SerializeField]
 	private Behaviour[] disableOnDeath;
@@ -24,6 +24,7 @@ public class Player : NetworkBehaviour {
 	
 	[SerializeField]
     private GameObject deathEffect;
+	
 	
 	[SerializeField]
 	private GameObject[] disableGameObjectsOnDeath;
@@ -42,7 +43,7 @@ public class Player : NetworkBehaviour {
     }
 	public float GetHealth()
 	{
-		return currentHealth/ maxHealth;
+		return (float)currentHealth/ maxHealth;
 	}
 	
 	[Command]
@@ -90,9 +91,8 @@ public class Player : NetworkBehaviour {
 
         Debug.Log(transform.name + " now has " + currentHealth + " health.");
 
-		if (currentHealth <= 0f)
-		{
-			Debug.Log ("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+		if (currentHealth <= 0)
+		{			
 			Die();
 		}
     }

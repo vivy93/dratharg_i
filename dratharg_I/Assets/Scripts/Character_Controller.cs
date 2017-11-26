@@ -30,6 +30,7 @@ public class Character_Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		panel = GameObject.FindGameObjectWithTag("Panel");
 		if (panel!=null) {
 			if (panel.activeSelf)
@@ -53,20 +54,4 @@ public class Character_Controller : MonoBehaviour {
 		cc.Move(jumpMovement*Time.deltaTime);
 		
 	}
-
-	/*void Shoot ()
-	{
-		GameObject bullet = Instantiate (bulletPrefab, m_Camera.transform.position + m_Camera.transform.TransformDirection (Vector3.forward * 0.5f - Vector3.up * 0.09f), m_Camera.transform.rotation) as GameObject;
-		bullet.GetComponent<Rigidbody> ().AddRelativeForce (Vector3.forward * 20f, ForceMode.VelocityChange);
-
-		RaycastHit hit;
-		if (Physics.Raycast (m_Camera.transform.position, m_Camera.transform.forward, out hit, range)) {
-			Target target = hit.transform.GetComponent<Target> ();
-			if (target != null) {
-				target.TakeDemage (damage);
-			}
-		}
-		Destroy (bullet, 4f);
-
-	}*/
 }

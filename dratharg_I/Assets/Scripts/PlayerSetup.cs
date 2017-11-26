@@ -13,11 +13,9 @@ public class PlayerSetup : NetworkBehaviour {
 	public Camera playerCamera;
 	// Camera sceneCamera;
 
-	private GameObject canvas;
 
 	void Start ()
 	{
-		//canvas = GameObject.FindGameObjectWithTag("Canvas");
 		// Disable components that should only be
 		// active on the player that we control
 		if (!isLocalPlayer)
@@ -26,25 +24,12 @@ public class PlayerSetup : NetworkBehaviour {
 			AssignRemoteLayer();
 		}
 		else
-		{
-			//canvas.SetActive (false);
+		{			
 			GetComponent<Player>().SetupPlayer();
 		}
 		
-		// else
-		// {
-			// // We are the local player: Disable the scene camera
-			// sceneCamera = Camera.main;
-			// if (sceneCamera != null)
-			// {
-				// Cardboard.SDK.gameObject.SetActive (true);
-				// sceneCamera.gameObject.SetActive(false);
-            // }
-		// }
-		//Game manager handle this function.
-		//RegisterPlayer();
-		
 	}
+	
 	
 	public override void OnStartClient()
 	{
@@ -55,12 +40,6 @@ public class PlayerSetup : NetworkBehaviour {
 		GameManager.RegisterPlayer(_netID, player);
 	}
 	
-	//Game manager handle this function.
-	/*void RegisterPlayer ()
-	{
-		string _ID = "Player " + GetComponent<NetworkIdentity>().netId;
-		transform.name = _ID;
-	}*/
 
 	void AssignRemoteLayer ()
 	{
@@ -82,12 +61,7 @@ public class PlayerSetup : NetworkBehaviour {
 			GameManager.instance.SetSceneCameraActive(true);
 			Cardboard.SDK.gameObject.SetActive (false);
 		}
-		// if (sceneCamera != null) {
-			
-			// sceneCamera.gameObject.SetActive (true);
-			// Cardboard.SDK.gameObject.SetActive (false);
-			// //playerCamera.gameObject.SetActive(false);
-		// }
+		
 		GameManager.UnRegisterPlayer(transform.name);
 	}
 }

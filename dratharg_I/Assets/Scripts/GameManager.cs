@@ -9,6 +9,15 @@ public class GameManager : MonoBehaviour {
 	
 	[SerializeField]
 	private GameObject sceneCamera;
+	
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			
+			
+		}
+	}
 
 	void Awake ()
 	{
