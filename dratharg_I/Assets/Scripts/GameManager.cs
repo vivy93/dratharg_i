@@ -3,76 +3,53 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 	
-	public static GameManager instance;
+	public static GameManager gameManager;
 
 	public MatchSetting matchSettings;
 	
 	[SerializeField]
-	private GameObject sceneCamera;
-	
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			
-			
-		}
-	}
+	private GameObject s_cam;
+
+	private const string PLAYER = "Player ";
+
+	private static Dictionary<string, Player> playerList = new Dictionary<string, Player>();
+
 
 	void Awake ()
 	{
-		if (instance != null)
+		if (gameManager != null)
 		{
-			Debug.LogError("More than one GameManager in scene.");
+			Debug.LogError("Warning! Please use just one GameManager.");
 		} else
 		{
-			instance = this;
+			gameManager = this;
 		}
 	}
 	
 	public void SetSceneCameraActive(bool isActive)
 	{
-		if(sceneCamera==null) return;
+		if(s_cam==null) return;
 		
-		sceneCamera.SetActive(isActive);
+		s_cam.SetActive(isActive);
 		
 	}
+		
 
-	
-    #region Player Tracking
-	private const string PLAYER_ID_PREFIX = "Player ";
+	public static void UnRegisterPlayer (string _pID)
+	{
+		playerList.Remove(_pID);
+	}
 
-    private static Dictionary<string, Player> players = new Dictionary<string, Player>();
-
-    public static void RegisterPlayer (string _netID, Player _player)
+    public static void RegisterPlayer (string _net, Player player)
     {
-        string _playerID = PLAYER_ID_PREFIX + _netID;
-        players.Add(_playerID, _player);
-        _player.transform.name = _playerID;
+		string playerID = PLAYER + _net;
+        playerList.Add(playerID, player);
+        player.transform.name = playerID;
     }
 
-    public static void UnRegisterPlayer (string _playerID)
+    public static Player GetPlayer (string _pID)
     {
-        players.Remove(_playerID);
+        return playerList[_pID];
     }
 
-    public static Player GetPlayer (string _playerID)
-    {
-        return players[_playerID];
-    }
-
-    //void OnGUI ()
-    //{
-    //    GUILayout.BeginArea(new Rect(200, 200, 200, 500));
-    //    GUILayout.BeginVertical();
-
-    //    foreach (string _playerID in players.Keys)
-    //    {
-    //        GUILayout.Label(_playerID + "  -  " + players[_playerID].transform.name);
-    //    }
-
-    //    GUILayout.EndVertical();
-    //    GUILayout.EndArea();
-    //}
-	#endregion
 }

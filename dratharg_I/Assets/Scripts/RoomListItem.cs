@@ -16,15 +16,11 @@ public class RoomListItem : MonoBehaviour {
 	private Text roomNameText;
 
 	private MatchInfoSnapshot match;
-
-	// Use this for initialization
 	public void Setup (MatchInfoSnapshot _match,  JoinRoomDelegate _joinRoomCallback) {
 		
 		match = _match;
 		joinRoomCallback =_joinRoomCallback;
-		//roomNameText.text = match.name + " (" + match.currentSize + " )";
 		roomButton.GetComponentInChildren<Text>().text = match.name + " (" + match.currentSize + "/" + match.maxSize + " )";
-		//Debug.Log ("RoomListItem////Setup");
 	}
 	
 	public void JoinGameMethod () {

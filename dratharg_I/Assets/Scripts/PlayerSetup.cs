@@ -11,13 +11,9 @@ public class PlayerSetup : NetworkBehaviour {
 	string remoteLayerName = "RemotePlayer";
 
 	public Camera playerCamera;
-	// Camera sceneCamera;
-
 
 	void Start ()
 	{
-		// Disable components that should only be
-		// active on the player that we control
 		if (!isLocalPlayer)
 		{
 			DisableComponents();
@@ -58,7 +54,7 @@ public class PlayerSetup : NetworkBehaviour {
 	{
 		if(isLocalPlayer)
 		{
-			GameManager.instance.SetSceneCameraActive(true);
+			GameManager.gameManager.SetSceneCameraActive(true);
 			Cardboard.SDK.gameObject.SetActive (false);
 		}
 		

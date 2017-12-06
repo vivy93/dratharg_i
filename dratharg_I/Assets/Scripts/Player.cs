@@ -35,8 +35,7 @@ public class Player : NetworkBehaviour {
     {
 		if(isLocalPlayer)
 		{
-			//Switch Cameras
-			GameManager.instance.SetSceneCameraActive(false);
+			GameManager.gameManager.SetSceneCameraActive(false);
 			Cardboard.SDK.gameObject.SetActive (true);
 		}
 		CmdBroadCastNewPlayerSetup();
@@ -120,7 +119,7 @@ public class Player : NetworkBehaviour {
 		
 		if (isLocalPlayer)
 		{
-			GameManager.instance.SetSceneCameraActive(true);
+			GameManager.gameManager.SetSceneCameraActive(true);
 			Cardboard.SDK.gameObject.SetActive (false);
 			
 		}
@@ -132,18 +131,15 @@ public class Player : NetworkBehaviour {
 
 	private IEnumerator Respawn ()
 	{
-		yield return new WaitForSeconds(GameManager.instance.matchSettings.respawnTime);
+		yield return new WaitForSeconds(GameManager.gameManager.matchSettings.respawnTime);
 
 		
 		Transform _spawnPoint = NetworkManager.singleton.GetStartPosition();
 		transform.position = _spawnPoint.position;
 		transform.rotation = _spawnPoint.rotation;
-		
-		//Make sure to setup rotation and position
 		yield return new WaitForSeconds(0.1f);
 		
 		SetupPlayer();
-		//SetDefaults();
 
 		Debug.Log(transform.name + " respawned.");
 	}

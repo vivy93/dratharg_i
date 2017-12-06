@@ -4,20 +4,20 @@ using UnityEngine.Networking;
 public class WeaponManager : NetworkBehaviour {
 
 	[SerializeField]
-	private string weaponLayerName = "Weapon";
+	private string weaponLName = "Weapon";
 
 	[SerializeField]
-	private Transform weaponHolder;
+	private Transform holder;
 
 	[SerializeField]
-	private PlayerWeapon primaryWeapon;
+	private PlayerWeapon weapon;
 
 	private PlayerWeapon currentWeapon;
 	private WeaponGraphics currentGraphics;
 
 	void Start ()
 	{
-		EquipWeapon(primaryWeapon);
+		SetWeapon(weapon);
 	}
 
 	public PlayerWeapon GetCurrentWeapon ()
@@ -30,19 +30,18 @@ public class WeaponManager : NetworkBehaviour {
  		return currentGraphics;
  	}
 
-	void EquipWeapon (PlayerWeapon _weapon)
+	void SetWeapon (PlayerWeapon curWeapon)
 	{
-		currentWeapon = _weapon;
+		currentWeapon = curWeapon;
 
-		GameObject _weaponIns = (GameObject)Instantiate(_weapon.graphics, weaponHolder.position, weaponHolder.rotation);
-		_weaponIns.transform.SetParent(weaponHolder);
+		GameObject _weapon = (GameObject)Instantiate(curWeapon.graphics, holder.position, holder.rotation);
+		_weapon.transform.SetParent(holder);
 		
-		currentGraphics = _weaponIns.GetComponent<WeaponGraphics>();
+		currentGraphics = _weapon.GetComponent<WeaponGraphics>();
  		if (currentGraphics == null)
- 			Debug.LogError("No WeaponGraphics component on the weapon object: " + _weaponIns.name);
+ 			Debug.LogError("Error: " + _weapon.name);
 		if (isLocalPlayer)
-			//Util.SetLayerRecursively(_weaponIns, LayerMask.NameToLayer(weaponLayerName));
-			_weaponIns.layer = LayerMask.NameToLayer(weaponLayerName);
+			_weapon.layer = LayerMask.NameToLayer(weaponLName);
 			
 
 	}

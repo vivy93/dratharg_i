@@ -6,36 +6,31 @@ public class HostGame : MonoBehaviour {
 
 	[SerializeField]
 	private uint roomSize = 4;
-	private string roomName;
-	private NetworkManager _networkManager;
+	private string room;
+	private NetworkManager netManager;
 	
 	// Use this for initialization
 	void Start () {
-		_networkManager = NetworkManager.singleton;
-		if (_networkManager.matchMaker ==null)
+		netManager = NetworkManager.singleton;
+		if (netManager.matchMaker ==null)
 		{
-			_networkManager.StartMatchMaker();
+			netManager.StartMatchMaker();
 		}
 	}
+	public void CreateRoom()
+	{
+		if(room != "" && room != null)
+		{
+			Debug.Log("Room name: " + room + ", Player number: " + roomSize);
+			netManager.matchMaker.CreateMatch(room, roomSize, true, "", "", "", 0, 0, netManager.OnMatchCreate);
+		}
 
+	}
 	public void SetRoomName(string _name)
 	{
-		roomName = _name;
+		room = _name;
 
 	}
 	
-	public void CreateRoom()
-	{
-		/*if (_networkManager.matchMaker ==null)
-		{
-			_networkManager.StartMatchMaker();
-		}*/
-		if(roomName != "" && roomName != null)
-		{
-			Debug.Log("Creating Room: " + roomName + " with room for " + roomSize + " players.");
-			//Create room
-			_networkManager.matchMaker.CreateMatch(roomName, roomSize, true, "", "", "", 0, 0, _networkManager.OnMatchCreate);
-		}
-		
-	}
+
 }

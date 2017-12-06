@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//unused class
 public class Target : MonoBehaviour {
 
 	public float health= 50f;

@@ -11,12 +11,6 @@ public class JoinGame : MonoBehaviour {
 	
 	[SerializeField]
 	private Text status;
-	
-	[SerializeField]
-	private GameObject roomListItemPrefab;
-	
-	[SerializeField]
-	private Transform roomListParent;
 
 	public GameObject[] rooms;
 	
@@ -33,25 +27,13 @@ public class JoinGame : MonoBehaviour {
 		}
 		RefreshRoomList();
 	}
-	
-	public void RefreshRoomList()
-	{
-		ClearRoomList ();
-		//networkManager = NetworkManager.singleton;
-		if (networkManager.matchMaker == null)
-		{
-			networkManager.StartMatchMaker();
-		}
-		networkManager.matchMaker.ListMatches(0, 20, "",true, 0, 0, OnMatchList);
-		status.text = "Loading...";
-	}
-	
+
 	public void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
 	{
 		status.text = "";
 		if (!success || matchList ==null)
 		{
-			status.text = "Couldn't get room list.";
+			status.text = "Something went wrong! Check your internet connection.";
 			return;
 		}
 
@@ -75,24 +57,17 @@ public class JoinGame : MonoBehaviour {
 			}
 		}
 		if (j==0) {
-			status.text = "No rooms at the moment...";
+			status.text = "No available rooms...";
 		}
 	}
-	
-	void ClearRoomList()
+
+	public void JoinRoom(MatchInfoSnapshot matchInfo)
 	{
-		for (int i = 0; i < rooms.Length; i++) {
-			rooms [i].SetActive (false);
-		}
-	}
-		
-	public void JoinRoom(MatchInfoSnapshot _match)
-	{
-		networkManager.matchMaker.JoinMatch(_match.networkId, "", "","",0,0, networkManager.OnMatchJoined);
-		StartCoroutine(WaitForJoin());
+		networkManager.matchMaker.JoinMatch(matchInfo.networkId, "", "","",0 ,0 , networkManager.OnMatchJoined );
+		StartCoroutine(WaitingForExistingRoom());
 	}
 	
-	IEnumerator WaitForJoin ()
+	IEnumerator WaitingForExistingRoom ()
 	{
 		ClearRoomList();
 
@@ -106,8 +81,7 @@ public class JoinGame : MonoBehaviour {
 			countdown--;
 		}
 
-		// Failed to connect
-		status.text = "Failed to connect.";
+		status.text = "The room not exist!.";
 		yield return new WaitForSeconds(1);
 
 		MatchInfo matchInfo = networkManager.matchInfo;
@@ -118,7 +92,23 @@ public class JoinGame : MonoBehaviour {
 		}
 
 		RefreshRoomList();
-
 	}
-	
+
+	public void RefreshRoomList()
+	{
+		ClearRoomList ();
+		//networkManager = NetworkManager.singleton;
+		if (networkManager.matchMaker == null)
+		{
+			networkManager.StartMatchMaker();
+		}
+		networkManager.matchMaker.ListMatches(0, 20, "",true, 0, 0, OnMatchList);
+		status.text = "Loading...";
+	}
+	void ClearRoomList()
+	{
+		for (int i = 0; i < rooms.Length; i++) {
+			rooms [i].SetActive (false);
+		}
+	}
 }
